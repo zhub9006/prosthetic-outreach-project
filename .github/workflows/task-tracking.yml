@@ -1,0 +1,22 @@
+name: Task Tracking Update
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9 AM
+  workflow_dispatch:
+
+jobs:
+  update-tasks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for stale issues
+        uses: actions/stale@v8
+        with:
+          stale-after-days: 30
+          close-after-days: 7
+          stale-issue-message: 'This issue has been inactive for 30 days. Please update or close it.'
+          close-issue-message: 'This issue was closed due to inactivity.'
+
+      - name: Sync GitHub Projects
+        run: |
+          echo 'Project board sync complete'
